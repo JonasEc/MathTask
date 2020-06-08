@@ -120,9 +120,6 @@ SESSION_CONFIGS = [
 
 
 
-RECAPTCHA_PUBLIC_KEY = '6LcDleYUAAAAABOjmn93fgLcoC55Iu92_5-RbZL1'
-RECAPTCHA_PRIVATE_KEY = '6LcDleYUAAAAAIVNjf_rEBtZK8zevhVpJ2yfsjWW'
-
 # ISO-639 code
 # for example: de, fr, ja, ko, zh-hans
 LANGUAGE_CODE = 'en'
