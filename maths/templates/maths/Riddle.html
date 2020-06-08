@@ -1,0 +1,84 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Riddle
+{% endblock %}
+
+{% block content %}
+    <p> The riddle is:</p>
+
+    <p class="qtext"> {{questiontext}} </p>
+
+    <p> Discuss the riddle in the chat and when you feel confident in an answer, enter it below.</p>
+
+    {% chat nickname=chat_nickname %}
+
+    {% formfield player.answer label=qlabel %}
+
+    <div id="button1">
+        {% next_button %}
+    </div>
+
+    <div id="button2">
+        <p>
+            (The Next Button will appear after {{Constants.mintime}} seconds.)
+        </p>
+    </div>
+
+{% endblock %}
+
+
+{% block styles %}
+
+<style type="text/css">
+
+p.qtext {
+ 	font-size:22px;
+	border-style: dashed;
+	border-width: 3px;
+	border-color: blue;
+	padding: 15px;
+}
+
+</style>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+	function hide() {
+		document.getElementById("button1").style.display = "none";
+	}
+
+	function hide2() {
+		document.getElementById("button2").style.display = "none";
+	}
+
+	hide()
+
+	var timePeriodInMs = {{mintime|json}};
+
+	setTimeout(function()
+		{
+		document.getElementById("button1").style.display = "block";
+		hide2();
+		},
+	timePeriodInMs);
+
+  $(document).ready(function () {
+   $('.otree-chat__messages').bind("DOMSubtreeModified", function () {
+	$("span.otree-chat__nickname:contains('Sarah')").css("color", "DeepPink");
+	$("span.otree-chat__nickname:contains('Jennifer')").css("color", "HotPink");
+	$("span.otree-chat__nickname:contains('Mary')").css("color", "Orchid");
+	$("span.otree-chat__nickname:contains('Peter')").css("color", "MediumSlateBlue");
+	$("span.otree-chat__nickname:contains('John')").css("color", "blue");
+	$("span.otree-chat__nickname:contains('Robert')").css("color", "DeepSkyBlue");
+   });
+  });
+
+
+</script>
+
+
+{% endblock %}

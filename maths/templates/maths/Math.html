@@ -1,0 +1,203 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+<!-- {% block title %}
+    
+{% endblock %} -->
+
+{% block content %}
+
+
+    <p id = "header"> </p>
+    <p id = "header2"> </p>
+
+    	
+    <table id ='matrix'>
+	</table> 
+
+
+    <p> </p>
+
+
+    <div id ="activePlayer">
+    <p> Once you feel confident in an answer, enter it below.</p>
+    <input id="inputbox" type="number" min = "-27" max = "27">
+
+    <button type="button" id="sendbutton" class='green'>Answer</button>
+    </div>
+
+    <div id ="kickPlayer">
+    <p id = 'kickMssg'> </p>
+
+    <button type="button" id="kickbutton" class='red'>SKIP ACTIVE PLAYER?</button>
+    </div>
+
+        {% chat nickname=chat_nickname %}
+
+
+
+{% endblock %}
+
+
+{% block styles %}
+
+ <style type="text/css">
+table {
+    border: 1px solid black;
+    border-collapse: collapse;
+    text-align:center;
+    width: 180px;
+    height:180px;
+}
+td {
+    border: 1px solid black;
+    border-collapse: collapse;
+	font-size:20px;
+    width:60px;
+    height:60px;
+
+}
+
+.red {
+  background-color: #f44336; /* red */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+.green {
+  background-color: #4CAF50; /* green */
+  border: none;
+  color: white;
+  padding: 10px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  margin: 3px 2px;
+  cursor: pointer;
+}
+
+</style>
+{% endblock %}
+
+{% block scripts %}
+<script>
+
+    window.addEventListener('DOMContentLoaded', (event) => {
+        liveSend({'pageLoad': true});
+    });
+
+
+    // let activePlayer = document.getElementById('activePlayer');
+    let matrix = document.getElementById('matrix');
+    let inputbox = document.getElementById('inputbox');
+    let sendbutton = document.getElementById('sendbutton');
+
+    function liveRecv(payload) {
+        matrix.innerHTML = '<tr><td>' + payload.matrix[0] + '</td><td>' + payload.matrix[1] + '</td><td>' + payload.matrix[2] + '</td></tr>';
+        matrix.innerHTML += '<tr><td>' + payload.matrix[3] + '</td><td>' + payload.matrix[4] + '</td><td>' + payload.matrix[5] + '</td></tr>';
+        matrix.innerHTML += '<tr><td>' + payload.matrix[6] + '</td><td>' + payload.matrix[7] + '</td><td>' + payload.matrix[8] + '</td></tr>';
+
+        var action = document.getElementById('activePlayer');
+        var kick = document.getElementById('kickPlayer');
+        var header = document.getElementById('header');
+        var header2 = document.getElementById('header2');
+        var whosActive = document.getElementById('whosActive');
+        if (payload.counter == {{id}}) {
+            action.style.display = "block";
+            kick.style.display = "none";
+            header.innerHTML = "<b>YOU ARE THE ACTIVE PLAYER </b>";
+            header.style.fontSize = 'x-large';
+            header2.innerHTML = "Please add up the nine numbers in the square:"
+            whosActive.innerHTML = ''
+        } else {
+            action.style.display = 'none';
+            kick.style.display = "block";
+            header.innerHTML = "<b>You are a reserve player</b>";
+            header.style.fontSize = 'x-large';     
+            header2.innerHTML = "<span class='cen'><b>" +  payload.name + "</b></span> is working on this square. ";
+            if  (payload.incorrect != 'first' ) {   
+                header2.innerHTML +=  '<span class="cen"><b>' + payload.name + '</b></span> answered ' + payload.hisher +  ' last question <b>' + payload.incorrect + "correctly</b>."; 
+            };     
+        };
+
+
+        if (payload.refresh) {
+            var kick = document.getElementById('kickMssg');
+            var kickB = document.getElementById('kickbutton');
+            kick.innerHTML = "If you want to vote for ending <span class='cen'><b>" + payload.name + "'s</b></span> turn, click below.";
+            kickB.style.background = "#f44336";            
+        };
+
+            $("span.cen:contains('Sarah')").css("color", "DeepPink");
+            $("span.cen:contains('Jennifer')").css("color", "HotPink");
+            $("span.cen:contains('Mary')").css("color", "Orchid");
+            $("span.cen:contains('Peter')").css("color", "MediumSlateBlue");
+            $("span.cen:contains('John')").css("color", "blue");
+            $("span.cen:contains('Robert')").css("color", "DeepSkyBlue");
+            $("span.cen:contains('Sasha')").css("color", "green");
+            $("span.cen:contains('Charlie')").css("color", "green");
+            $("span.cen:contains('Rory')").css("color", "green"); 
+
+    };
+       
+
+    sendbutton.onclick = function () {
+        liveSend({'kick': false, 'pageLoad': false, 'answer': parseInt(inputbox.value)});
+    };
+    kickbutton.onclick = function () {
+        var kick = document.getElementById('kickMssg');
+        var kickB = document.getElementById('kickbutton');
+        kick.innerHTML = "Your vote has been counted";
+        kickB.style.background = "#F08080";
+        // var t= new Date().getTime()/1000;
+        liveSend({'kick': true, 'pageLoad': false});
+    };    
+
+  $(document).ready(function () {
+   $('.otree-chat__messages').bind("DOMSubtreeModified", function () {
+    $("span.otree-chat__nickname:contains('Sarah')").css("color", "DeepPink");
+    $("span.otree-chat__nickname:contains('Jennifer')").css("color", "HotPink");
+    $("span.otree-chat__nickname:contains('Mary')").css("color", "Orchid");
+    $("span.otree-chat__nickname:contains('Peter')").css("color", "MediumSlateBlue");
+    $("span.otree-chat__nickname:contains('John')").css("color", "blue");
+    $("span.otree-chat__nickname:contains('Robert')").css("color", "DeepSkyBlue");
+   });
+
+  
+    // var action = document.getElementById('activePlayer');
+    // var kick = document.getElementById('kickPlayer');
+    // var header = document.getElementById('header');
+    // var header2 = document.getElementById('header2');
+    // var whosActive = document.getElementById('whosActive');
+
+
+    // if (3 != {{id}}) {
+    //     action.style.display = 'none';
+    //     kick.style.display = "block";
+    //     header.innerHTML = "<b>YOU ARE THE ACTIVE PLAYER </b>";
+    //     header.style.fontSize = 'x-large';
+    //     header2.innerHTML = "Please add up the nine numbers in the square:"        
+    // } else {
+    //     action.style.display = "block";
+    //     kick.style.display = "none";
+    //     header.innerHTML = "<b>You are a reserve player</b>"    ;
+    //     header.style.fontSize = 'x-large';     
+    //     header2.innerHTML = payload.name + " is working on this square:";
+    // }; 
+  });
+
+
+</script>
+
+
+{% endblock %}
+
+

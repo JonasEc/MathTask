@@ -1,0 +1,20 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Almost done!
+{% endblock %}
+
+{% block content %}
+
+    <p> Please answer the survey questions below accurately and carefully. Thank you very much!</p>
+
+	{% formfield player.education %}
+	{% formfield player.ethnic %}
+	{% formfield player.income %}
+	{% formfield player.percentMTurk %}
+	{% formfield player.marital %}
+
+    {% next_button %}
+
+{% endblock %}
