@@ -1,0 +1,30 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    DONE!
+{% endblock %}
+
+{% block content %}
+
+    <p> Thank you so much for your help with our research! </p>
+
+    <p> You will now be paid your HIT fee as well as the first week completion bonus!</p>
+
+    <p> In three days, you will complete the second session. You will receive a link to the study to your mTurk e-mail account.
+        <b>We appreciate your continued help with our research!</b></p>
+
+        <p> In the second session, you will have the chance to earn up to $10.00 in additional payment and will get a $3.00 completion payment for completing the study!
+        You will also receive the payments you earned today for the science quiz, the riddle, and the bonus survey.
+        You will only receive these payments if you complete the second session.
+        Thank you again for your help with our research!</p>
+
+    <p> If you have any questions in the meantime, please reach out to Stephanie Wang at swwang@pitt.edu.</p>
+
+    <p> Thank you so much for your participation! We look forward to your returning in three days. </p>
+
+    <p> You completion code for this session is <b>{{code}}</b></p>
+
+{% endblock %}
+
+

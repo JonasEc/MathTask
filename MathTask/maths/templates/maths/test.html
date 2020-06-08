@@ -1,0 +1,89 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Your Current Task
+{% endblock %}
+
+{% block content %}
+    <p> Please add up all nine numbers:</p>
+
+   <table id="history" class="table">
+  <tr>
+    <th>Player</th>
+    <th>Bid</th>
+  </tr>
+</table>
+<input id="inputbox" type="number">
+<button type="button" id="sendbutton">Send</button>
+
+<script>
+
+    let history = document.getElementById('history');
+    let inputbox = document.getElementById('inputbox');
+    let sendbutton = document.getElementById('sendbutton');
+
+    function liveRecv(payload) {
+        history.innerHTML += '<tr><td>' + payload.id_in_group + '</td><td>' + payload.bid + '</td></tr>';
+    }
+
+    sendbutton.onclick = function () {
+        liveSend(parseInt(inputbox.value));
+    };
+</script>
+
+
+
+
+        {% chat nickname=chat_nickname %}
+
+
+
+{% endblock %}
+
+
+{% block styles %}
+
+ <style type="text/css">
+table {
+    border: 1px solid black;
+    border-collapse: collapse;
+    text-align:center;
+    width: 180px;
+    height:180px;
+}
+td {
+    border: 1px solid black;
+    border-collapse: collapse;
+	font-size:20px;
+    width:60px;
+    height:60px;
+
+}
+</style>
+
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+
+  $(document).ready(function () {
+   $('.otree-chat__messages').bind("DOMSubtreeModified", function () {
+	$("span.otree-chat__nickname:contains('Sarah')").css("color", "DeepPink");
+	$("span.otree-chat__nickname:contains('Jennifer')").css("color", "HotPink");
+	$("span.otree-chat__nickname:contains('Mary')").css("color", "Orchid");
+	$("span.otree-chat__nickname:contains('Peter')").css("color", "MediumSlateBlue");
+	$("span.otree-chat__nickname:contains('John')").css("color", "blue");
+	$("span.otree-chat__nickname:contains('Robert')").css("color", "DeepSkyBlue");
+   });
+  });
+
+
+
+</script>
+
+
+{% endblock %}
+
+

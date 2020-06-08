@@ -1,0 +1,21 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    You have finished the experiment
+{% endblock %}
+
+{% block content %}
+
+    <p> Thank you for your participation in our experiment. We apologize for the waiting time you had to incur.
+        We hope you have enjoyed your participation despite this.</p>
+
+    <p> We will pay your HIT compensation as well as your bonus payment of {{payoff}} as soon as possible. </p>
+
+    <p> Please enter the code <b>SW{{code}}</b></p>
+
+    <p> Many thanks again.</p>
+
+    {% next_button %}
+
+{% endblock %}
